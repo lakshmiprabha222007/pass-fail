@@ -6,18 +6,20 @@ import numpy as np
 with open("trained_pass_fail_model.pkl", "rb") as f:
     model = pickle.load(f)
 
-st.title("🔍 Pass / Fail Prediction App")
+st.title("📊 Pass / Fail Prediction App")
 
-st.write("Enter the required input value to predict result")
+st.write("Pass if predicted value is 50 or above")
 
-# Generic input (NOT study hours)
+# Generic numeric input (NOT study hours)
 value = st.number_input("Enter Input Value", step=1.0)
 
 if st.button("Predict"):
     input_data = np.array([[value]])
-    prediction = model.predict(input_data)
+    predicted_value = model.predict(input_data)[0]
 
-    if prediction[0] == 1:
+    st.write(f"Predicted Value: {predicted_value:.2f}")
+
+    if predicted_value >= 50:
         st.success("✅ PASS")
     else:
         st.error("❌ FAIL")
