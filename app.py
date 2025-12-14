@@ -2,27 +2,23 @@ import streamlit as st
 import pickle
 import numpy as np
 
-# Load the trained model
-with open("trained_pass_fail_model.pkl", "rb") as file:
-    model = pickle.load(file)
+# Load trained model
+with open("trained_pass_fail_model.pkl", "rb") as f:
+    model = pickle.load(f)
 
-st.title("🎓 Pass / Fail Prediction App")
+st.title("📊 Pass / Fail Prediction")
 
-st.write("Enter the number of study hours to predict Pass or Fail")
+st.write("Enter study hours to predict result")
 
-# User input
-study_hours = st.number_input(
-    "Study Hours",
-    min_value=0.0,
-    max_value=24.0,
-    step=0.5
-)
+# Input from user
+hours = st.number_input("Study Hours", 0.0, 24.0, step=0.5)
 
 if st.button("Predict"):
-    input_data = np.array([[study_hours]])
-    result = model.predict(input_data)
+    hours_input = np.array([[hours]])
+    prediction = model.predict(hours_input)
 
-    if result[0] == 1:
-        st.success("✅ Prediction: PASS")
+    if prediction[0] == 1:
+        st.success("✅ PASS")
     else:
-        st.error("❌ Prediction: FAIL")
+        st.error("❌ FAIL")
+
